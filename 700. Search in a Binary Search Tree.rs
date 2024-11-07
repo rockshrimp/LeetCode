@@ -1,0 +1,44 @@
+// Definition for a binary tree node.
+// #[derive(Debug, PartialEq, Eq)]
+// pub struct TreeNode {
+//   pub val: i32,
+//   pub left: Option<Rc<RefCell<TreeNode>>>,
+//   pub right: Option<Rc<RefCell<TreeNode>>>,
+// }
+// 
+// impl TreeNode {
+//   #[inline]
+//   pub fn new(val: i32) -> Self {
+//     TreeNode {
+//       val,
+//       left: None,
+//       right: None
+//     }
+//   }
+// }
+use std::rc::Rc;
+use std::cell::RefCell;
+impl Solution {
+    pub fn search_bst(root: Option<Rc<RefCell<TreeNode>>>, val: i32) -> Option<Rc<RefCell<TreeNode>>> {
+        
+        let current_node_opt = root.clone();
+        let current_node;
+        match current_node_opt{
+            Some(p) => {current_node = p.clone();},
+            None => {return None}
+        }
+
+        if val == current_node.borrow().val{
+            return root;
+        }
+        else if val < current_node.borrow().val{
+            return Self::search_bst( current_node.borrow().left.clone(), val);
+        }
+        else if val > current_node.borrow().val{
+            return Self::search_bst(current_node.borrow().right.clone(), val);
+        }
+        else {
+            return root;
+        }
+    }
+}
